@@ -297,6 +297,22 @@ module Orientdb4r
       process_response(response)
     end
 
+    def batch( sql, options = {} ) # sql is an array of sql query strings
+      raise ArgumentError, 'command is blank' if blank? sql
+      options[:transaction] ||= true
+      data = {
+        transaction: options[:transaction],
+        operations: [
+          {
+            type: 'script',
+            language: 'sql',
+            script: sql
+          }
+        ]
+      }
+      response = call_server( method: :post, uri: "batch/#{@database}", data: data.to_json )
+      process_response( response )
+    end
 
     # -------------------------------------------------------------------- CLASS
 
