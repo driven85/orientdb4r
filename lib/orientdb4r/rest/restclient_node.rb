@@ -29,6 +29,9 @@ module Orientdb4r
       # headers
       opts[:headers] = { 'User-Agent' => user_agent } unless user_agent.nil?
 
+      # timeout
+      opts[:timeout] = -1
+
       begin
         response = ::RestClient::Request.new(opts).execute
 
